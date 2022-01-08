@@ -1,0 +1,24 @@
+{
+  "name": "phantom_mask",
+  "version": "1.0.0",
+  "description": "You are building a backend service and a database for a pharmacy platform, with the following 2 raw datasets:",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/singhuacai/phantom_mask.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/singhuacai/phantom_mask/issues"
+  },
+  "homepage": "https://github.com/singhuacai/phantom_mask#readme",
+  "dependencies": {
+    "dotenv": "^10.0.0",
+    "express": "^4.17.2"
+  }
+}
