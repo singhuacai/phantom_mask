@@ -22,6 +22,30 @@ const getOpeningPharmacies = async (req, res) => {
   res.status(200).send({ openingPharmacies });
 };
 
+const getMasksByPharmacy = async (req, res) => {
+  const { pharmacy, sortby, desc } = req.query;
+  if (!pharmacy || !sortby || !desc) {
+    return res
+      .status(400)
+      .send({ error: "pharmacy, sortby and desc parameters are required!" });
+  }
+  if (sortby !== "mask_name" && sortby !== "mask_price") {
+    return res.status(400).send({ error: "you key the wrong sortby!" });
+  }
+  if (desc !== "false" && desc !== "true") {
+    return res.status(400).send({ error: "you key the wrong status!" });
+  }
+  const result = await Pharmacy.getMasksByPharmacy(pharmacy, sortby, desc);
+  const masksList = result.map((item) => {
+    return {
+      name: `${item.mask_name} (${item.mask_color}) (${item.per_pack_count} per pack)`,
+      price: item.mask_price,
+    };
+  });
+  res.status(200).send({ masksList });
+};
+
 module.exports = {
   getOpeningPharmacies,
+  getMasksByPharmacy,
 };

@@ -24,6 +24,28 @@ const getOpeningPharmacies = async (queryDay, time) => {
   return openingPharmacies;
 };
 
+const getMasksByPharmacy = async (pharmacy, sortby, desc) => {
+  let orderByStr = sortby;
+  if (desc === "true") {
+    orderByStr += " DESC";
+  }
+  let queryStr = `
+    SELECT 
+      pm.mask_name,
+      pm.mask_color,
+      pm.per_pack_count,
+      pm.mask_price 
+    FROM pharmacies_info AS pi
+    INNER JOIN pharmacies_mask AS pm
+      ON pi.id = pm.pharmacy_id
+    WHERE pi.name = ?
+    ORDER BY ${orderByStr};`;
+  const binding = [pharmacy];
+  const [masksByPharmacy] = await pool.query(queryStr, binding);
+  return masksByPharmacy;
+};
+
 module.exports = {
   getOpeningPharmacies,
+  getMasksByPharmacy,
 };
