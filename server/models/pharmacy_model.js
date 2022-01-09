@@ -25,10 +25,7 @@ const getOpeningPharmacies = async (queryDay, time) => {
 };
 
 const getMasksByPharmacy = async (pharmacy, sortby, desc) => {
-  let orderByStr = sortby;
-  if (desc === "true") {
-    orderByStr += " DESC";
-  }
+  let orderByStr = desc ? `${sortby} DESC` : sortby;
   let queryStr = `
     SELECT 
       pm.mask_name,
