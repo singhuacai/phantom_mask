@@ -45,7 +45,44 @@ const insertOpenAndMaskInfo = async (
   }
 };
 
+const insertUserInfo = async (userInfo) => {
+  const conn = await pool.getConnection();
+  try {
+    await conn.query("START TRANSACTION");
+    const [result] = await conn.query("INSERT INTO user SET ?", userInfo);
+    await conn.query("COMMIT");
+    return result.insertId;
+  } catch (error) {
+    await conn.query("ROLLBACK");
+    console.log(error);
+    return error;
+  } finally {
+    await conn.release();
+  }
+};
+
+const insertPurchaseHistory = async (purchaseHistoriesInfo) => {
+  const conn = await pool.getConnection();
+  try {
+    await conn.query("START TRANSACTION");
+    await conn.query(
+      "INSERT INTO purchase_history (user_id, pharmacy_name , mask_name, transaction_amount, transaction_date) VALUES ?",
+      [purchaseHistoriesInfo]
+    );
+    await conn.query("COMMIT");
+    return;
+  } catch (error) {
+    await conn.query("ROLLBACK");
+    console.log(error);
+    return error;
+  } finally {
+    await conn.release();
+  }
+};
+
 module.exports = {
   insertPharmaciesInfo,
   insertOpenAndMaskInfo,
+  insertUserInfo,
+  insertPurchaseHistory,
 };
