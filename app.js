@@ -10,6 +10,12 @@ const server = require("http").Server(app);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// API routes
+app.use([
+  require("./server/routes/pharmacy_route"),
+  require("./server/routes/user_route"),
+]);
+
 app.get("/", (req, res) => {
   res.send("This is PHANTOM_MASK SERVER!");
 });
