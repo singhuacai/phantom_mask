@@ -79,7 +79,7 @@ const insertPurchaseHistory = async (purchaseHistoriesInfo) => {
   try {
     await conn.query("START TRANSACTION");
     await conn.query(
-      "INSERT INTO purchase_history (user_id, pharmacy_id , mask_name, transaction_amount, transaction_date) VALUES ?",
+      "INSERT INTO purchase_history (user_id, pharmacy_id , mask_name, mask_color, per_pack_count, transaction_amount, transaction_date) VALUES ?",
       [purchaseHistoriesInfo]
     );
     await conn.query("COMMIT");

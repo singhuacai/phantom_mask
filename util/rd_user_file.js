@@ -21,10 +21,17 @@ fs.readFile("../data/users.json", "utf-8", async (err, data) => {
       let [result] = await checkPharmacyId(history.pharmacyName);
       const pharmacyId = result.pharmacyId;
       if (pharmacyId === -1) continue;
+      let maskInfo = history.maskName;
+      let maskInfoArr = maskInfo
+        .replaceAll(" (", ",")
+        .replaceAll(")", "")
+        .split(",");
+      maskInfo = maskInfoArr.splice(2, 1, parseInt(maskInfoArr[2]));
+
       purchaseHistoriesInfo.push([
         userId,
         pharmacyId,
-        history.maskName,
+        ...maskInfo,
         history.transactionAmount,
         history.transactionDate,
       ]);
