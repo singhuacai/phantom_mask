@@ -14,6 +14,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use([
   require("./server/routes/pharmacy_route"),
   require("./server/routes/user_route"),
+  require("./server/routes/statistic_route"),
 ]);
 
 app.get("/", (req, res) => {
