@@ -42,7 +42,26 @@ const getMasksByPharmacy = async (pharmacy, sortby, desc) => {
   return masksByPharmacy;
 };
 
+const getPharmaciesByMaskPrice = async (
+  max,
+  min,
+  perPackCountBasis,
+  operator
+) => {
+  let countLimitStr = `pm.per_pack_count ${operator ? "<" : ">"} ?`;
+  let binding = [min, max, perPackCountBasis];
+  let queryStr = `
+    SELECT DISTINCT psi.name
+    FROM pharmacies_info AS psi
+    INNER JOIN pharmacies_mask AS pm
+      ON psi.id = pm.pharmacy_id
+    WHERE (pm.mask_price BETWEEN ? And ?) AND ${countLimitStr};`;
+  const [pharmaciesByMaskPrice] = await pool.query(queryStr, binding);
+  return pharmaciesByMaskPrice;
+};
+
 module.exports = {
   getOpeningPharmacies,
   getMasksByPharmacy,
+  getPharmaciesByMaskPrice,
 };

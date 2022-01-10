@@ -51,7 +51,33 @@ const getMasksByPharmacy = async (req, res) => {
   res.status(200).send({ masksList });
 };
 
+const getPharmaciesByMaskPrice = async (req, res) => {
+  const min = parseFloat(req.query.min);
+  const max = parseFloat(req.query.max);
+  const perPackCountBasis = parseFloat(req.query.perPackCountBasis);
+  const operator = req.query.operator;
+  if (isNaN(min) || isNaN(max) || isNaN(perPackCountBasis) || !operator) {
+    return res.status(400).send({ error: "you key the wrong paramaters!" });
+  }
+  if (min < 0 || max < min || perPackCountBasis < 1) {
+    return res.status(400).send({ error: "you key the wrong paramaters!" });
+  }
+  let operatorArr = ["less", "more"];
+  if (!operatorArr.includes(operator)) {
+    return res.status(400).send({ error: "you key the wrong operator!" });
+  }
+  const result = await Pharmacy.getPharmaciesByMaskPrice(
+    max,
+    min,
+    perPackCountBasis,
+    operator === "less"
+  );
+  const pharmaciesList = result.map((pharmacy) => pharmacy.name);
+  res.status(200).send({ pharmaciesList });
+};
+
 module.exports = {
   getOpeningPharmacies,
   getMasksByPharmacy,
+  getPharmaciesByMaskPrice,
 };
