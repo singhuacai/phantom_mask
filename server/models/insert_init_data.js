@@ -61,12 +61,25 @@ const insertUserInfo = async (userInfo) => {
   }
 };
 
+const checkPharmacyId = async (pharmacyName) => {
+  try {
+    const queryStr =
+      "SELECT id AS pharmacyId FROM pharmacies_info WHERE name = ?;";
+    const binding = [pharmacyName];
+    const [pharmacyId] = await pool.query(queryStr, binding);
+    return pharmacyId;
+  } catch (error) {
+    console.log(error);
+    return -1;
+  }
+};
+
 const insertPurchaseHistory = async (purchaseHistoriesInfo) => {
   const conn = await pool.getConnection();
   try {
     await conn.query("START TRANSACTION");
     await conn.query(
-      "INSERT INTO purchase_history (user_id, pharmacy_name , mask_name, transaction_amount, transaction_date) VALUES ?",
+      "INSERT INTO purchase_history (user_id, pharmacy_id , mask_name, transaction_amount, transaction_date) VALUES ?",
       [purchaseHistoriesInfo]
     );
     await conn.query("COMMIT");
@@ -84,5 +97,6 @@ module.exports = {
   insertPharmaciesInfo,
   insertOpenAndMaskInfo,
   insertUserInfo,
+  checkPharmacyId,
   insertPurchaseHistory,
 };

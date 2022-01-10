@@ -2,6 +2,7 @@ var fs = require("fs");
 
 const {
   insertUserInfo,
+  checkPharmacyId,
   insertPurchaseHistory,
 } = require("../server/models/insert_init_data");
 
@@ -14,13 +15,15 @@ fs.readFile("../data/users.json", "utf-8", async (err, data) => {
       user_cash_balance: item.cashBalance,
     };
     let userId = await insertUserInfo(userInfo);
-
     let purchaseHistories = item.purchaseHistories;
     let purchaseHistoriesInfo = [];
     for (let history of purchaseHistories) {
+      let [result] = await checkPharmacyId(history.pharmacyName);
+      const pharmacyId = result.pharmacyId;
+      if (pharmacyId === -1) continue;
       purchaseHistoriesInfo.push([
         userId,
-        history.pharmacyName,
+        pharmacyId,
         history.maskName,
         history.transactionAmount,
         history.transactionDate,
