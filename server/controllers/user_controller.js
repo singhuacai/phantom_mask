@@ -1,12 +1,5 @@
 const User = require("../models/user.model");
-
-function validateDateHhMm(time) {
-  var isValid =
-    /^((19|20)\d\d)[-](0[1-9]|1[012])[-](0[1-9]|[12][0-9]|3[01])\s([0-1]?[0-9]|2[0-3]):([0-5][0-9])(:[0-5][0-9])/.test(
-      time
-    );
-  return isValid;
-}
+const { validateDateHhMm } = require("../../util/util");
 
 function validatePosInt(num) {
   return num % 1 === 0 && num > 0;
