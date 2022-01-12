@@ -8,6 +8,13 @@ function validatePosInt(num) {
 const getUserListByTotalAmount = async (req, res) => {
   const { startDate, endDate } = req.query;
   const topXUsers = Number(req.query.topXUsers);
+  if (!startDate || !endDate || !topXUsers) {
+    return res
+      .status(400)
+      .send({
+        error: "startDate, endDate and topXUsers parameters are required!",
+      });
+  }
   if (
     !validateDateHhMm(startDate) ||
     !validateDateHhMm(endDate) ||

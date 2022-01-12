@@ -32,21 +32,23 @@ const purchaseMask = async (
     FROM pharmacies_info pi2 
     INNER JOIN pharmacies_mask pm 
       ON pi2.id = pm.pharmacy_id 
-    WHERE pi2.name = ? AND pm.mask_name = ? AND pm.mask_color = ? AND pm.per_pack_count = ?;`;
+    WHERE pi2.name = ? AND pm.mask_name = ? AND pm.mask_color = ? AND pm.per_pack_count = ? FOR UPDATE;`;
     let bindings = [pharmacyName, maskName, maskColor, perPackCount];
     let [result] = await conn.query(queryStr, bindings);
     if (result.length === 0) {
       await conn.query("ROLLBACK");
       return { error: "you key the wrong paramaters!" };
     }
-    let { pharmacyId, pharmacyCashBalance, maskPrice } = result[0];
+    let { pharmacyId } = result[0];
+    let pharmacyCashBalance = Number(result[0].pharmacyCashBalance);
+    let maskPrice = Number(result[0].maskPrice);
 
     // 2. check the user cash balance
     [result] = await conn.query(
       `SELECT user_cash_balance AS userCashBalance FROM user WHERE id = ?;`,
       [userId]
     );
-    let { userCashBalance } = result[0];
+    let userCashBalance = Number(result[0].userCashBalance);
     if (userCashBalance < maskPrice) {
       await conn.query("ROLLBACK");
       return { error: "Insufficient balance" };
@@ -80,6 +82,7 @@ const purchaseMask = async (
     };
 
     [result] = await conn.query(queryStr, bindings);
+
     await conn.query("COMMIT");
     return result.insertId;
   } catch (error) {
