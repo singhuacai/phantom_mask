@@ -3,11 +3,11 @@
 
 ## Required
 ### API Document
-  Import [this](#api-document) json file to Postman
-
-### Import Data Commands
-  `rake import_data:book_store[PATH_TO_FILE]`
-  `rake import_data:user[PATH_TO_FILE]`
+  https://hackmd.io/@OaIOUmTYTFK03yyCpSSwDw/rkLXjWuhY
+### Import Data Commands    
+1) 進入 util 資料夾: `cd util`
+2) 將 pharmacies.json 的資料匯入DB: `node rd_pharmacy_file.js`
+3) 將 user.json 的資料匯入DB: `node rd_user_file.js `
 
 ## Bonus
 ### Test Coverage Report

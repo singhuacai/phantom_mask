@@ -26,12 +26,12 @@ fs.readFile("../data/users.json", "utf-8", async (err, data) => {
         .replaceAll(" (", ",")
         .replaceAll(")", "")
         .split(",");
-      maskInfo = maskInfoArr.splice(2, 1, parseInt(maskInfoArr[2]));
+      maskInfoArr.splice(2, 1, parseInt(maskInfoArr[2]));
 
       purchaseHistoriesInfo.push([
         userId,
         pharmacyId,
-        ...maskInfo,
+        ...maskInfoArr,
         history.transactionAmount,
         history.transactionDate,
       ]);
