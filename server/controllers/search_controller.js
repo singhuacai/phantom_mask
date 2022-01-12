@@ -1,10 +1,10 @@
 const Search = require("../models/search_model");
 
 const searchByPharmacyOrMask = async (req, res) => {
-  const keyword = req.query.keyword.trim();
-  if (!keyword) {
+  if (!req.query.keyword) {
     return res.status(400).send({ error: "keyword is required!" });
   }
+  const keyword = req.query.keyword.trim();
   const result = await Search.searchByPharmacyOrMask(keyword);
   let pharmacy = [];
   let mask = [];
