@@ -4,7 +4,7 @@
   "description": "You are building a backend service and a database for a pharmacy platform, with the following 2 raw datasets:",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "NODE_ENV=test mocha --timeout 20000 --exit"
   },
   "repository": {
     "type": "git",
@@ -18,6 +18,9 @@
   },
   "homepage": "https://github.com/singhuacai/phantom_mask#readme",
   "dependencies": {
+    "chai": "^4.3.4",
+    "chai-http": "^4.3.0",
+    "deep-equal-in-any-order": "^1.1.15",
     "dotenv": "^10.0.0",
     "express": "^4.17.2",
     "moment": "^2.29.1",
