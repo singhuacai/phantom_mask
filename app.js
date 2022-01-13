@@ -4,9 +4,10 @@ require("dotenv").config();
 const express = require("express");
 const app = express();
 const { PORT } = process.env;
-const port = PORT || 3000;
+const port = PORT || 4000;
 const server = require("http").Server(app);
 
+app.use(express.static("public/images"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -17,10 +18,6 @@ app.use([
   require("./server/routes/statistic_route"),
   require("./server/routes/search_route"),
 ]);
-
-app.get("/", (req, res) => {
-  res.send("This is PHANTOM_MASK SERVER!");
-});
 
 // Page not found
 app.use(function (req, res, next) {

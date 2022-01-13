@@ -171,4 +171,40 @@ describe("pharmacy", function () {
       );
     });
   });
+  context("get pharmacies by mask price", function () {
+    it("with right parameter", async () => {
+      const res = await requester.get(
+        "/pharmacy/listByPriceRange?min=0&max=10&perPackCountBasis=4&operator=less"
+      );
+      const data = res.body.pharmaciesList;
+      const expected = ["PrecisionMed", "MedSavvy"];
+      expect(data).to.deep.equal(expected);
+    });
+    it("with wrong parameter (max < min)", async () => {
+      const res = await requester.get(
+        "/pharmacy/listByPriceRange?min=10&max=0&perPackCountBasis=4&operator=less"
+      );
+      expect(res.statusCode).to.equal(400);
+      expect(res.body.error).to.equal("you key the wrong paramaters!");
+    });
+    it("with wrong parameter (per pack count basis < 1)", async () => {
+      const res = await requester.get(
+        "/pharmacy/listByPriceRange?min=0&max=10&perPackCountBasis=0&operator=less"
+      );
+      expect(res.statusCode).to.equal(400);
+      expect(res.body.error).to.equal("you key the wrong paramaters!");
+    });
+    it("with wrong parameter (wrong operator)", async () => {
+      const res = await requester.get(
+        "/pharmacy/listByPriceRange?min=0&max=10&perPackCountBasis=4&operator=equal"
+      );
+      expect(res.statusCode).to.equal(400);
+      expect(res.body.error).to.equal("you key the wrong operator!");
+    });
+    it("lack parameters", async () => {
+      const res = await requester.get("/pharmacy/listByPriceRange");
+      expect(res.statusCode).to.equal(400);
+      expect(res.body.error).to.equal("you key the wrong paramaters!");
+    });
+  });
 });

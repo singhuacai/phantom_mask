@@ -261,7 +261,7 @@ const user = [
   },
   {
     user_name: "user2",
-    user_cash_balance: 100,
+    user_cash_balance: 10,
   },
   {
     user_name: "user3",

@@ -9,11 +9,9 @@ const getUserListByTotalAmount = async (req, res) => {
   const { startDate, endDate } = req.query;
   const topXUsers = Number(req.query.topXUsers);
   if (!startDate || !endDate || !topXUsers) {
-    return res
-      .status(400)
-      .send({
-        error: "startDate, endDate and topXUsers parameters are required!",
-      });
+    return res.status(400).send({
+      error: "startDate, endDate and topXUsers parameters are required!",
+    });
   }
   if (
     !validateDateHhMm(startDate) ||
@@ -33,6 +31,11 @@ const getUserListByTotalAmount = async (req, res) => {
 
 const purchaseMask = async (req, res) => {
   let { userId, pharmacyName, mask } = req.body;
+  if (!userId || !pharmacyName || !mask) {
+    return res.status(400).send({
+      error: "userId, pharmacyName and mask parameters are required!",
+    });
+  }
   let maskArr = mask.replaceAll(" (", ",").replaceAll(")", "").split(",");
   maskArr.splice(2, 1, parseInt(maskArr[2]));
   const maskName = maskArr[0];
