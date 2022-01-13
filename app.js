@@ -19,6 +19,10 @@ app.use([
   require("./server/routes/search_route"),
 ]);
 
+app.get("/", (req, res) => {
+  res.send("This is PHANTOM-MASK SYSTEM!");
+});
+
 // Page not found
 app.use(function (req, res, next) {
   res.status(404).send("Page Not Found!");

@@ -24,4 +24,5 @@ check the [DB schema](public/images/db_schema.png)
   and [.dockerignore](./.dockerignore)
 
 ### Demo Site Url
-  demo site is ready on [heroku](#demo-site-url)
+  demo site is ready on AWS.
+  Url: http://ec2-3-18-38-189.us-east-2.compute.amazonaws.com
